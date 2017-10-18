@@ -4,14 +4,13 @@
 Raspberrry Pi powered smart mirror inspired by HackerHouseYT 
 The Smart Mirror project displays News, Google Calendar Feed, Weather, Time, Location, and Date.
 
-TO-DO: Implementing 5 day weather forecast 
+**TO-DO:** Implement 5 day weather forecast 
 
 # Installation and Updating
 
-Download Link
-https://github.com/PWRxPSYCHO/SmartMirror.git
+Download by pressing green button in repo or
 
-If you have git installed you can clone the repo:
+If you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed you can clone the repo:
 ```
 git clone git@github.com:PWRxPSYCHO/SmartMirror.git
 ```
