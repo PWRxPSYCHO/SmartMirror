@@ -1,8 +1,8 @@
 **Version 1.0.0**
 
 # SmartMirror
-Raspberrry Pi powered smart mirror inspired by HackerHouseYT Smart Mirror project 
-Displays News, Google Calendar Feed, Weather, Time, Location, and Date.
+Raspberrry Pi powered smart mirror inspired by HackerHouseYT 
+The Smart Mirror project displays News, Google Calendar Feed, Weather, Time, Location, and Date.
 
 TO-DO: Implementing 5 day weather forecast 
 
@@ -42,3 +42,5 @@ To run the application navigate to the project folder and run the following comm
 ```
 python Mirror.py
 ```
+ # Bugs
+  Currently the positioning of the Google Calendar Feed is messed up.
