@@ -44,10 +44,19 @@ frame_top = Frame(root, background='black')
 frame_bottom = Frame(root, background='black')
 
 frame_t_left = Frame(frame_top, background='black')
-frame_calendar_image = Frame(frame_t_left, background='black')
 frame_calendar = Frame(frame_t_left, background='black')
+frame_calendar_image = Frame(frame_calendar, background='black')
+frame_calendar_events = Frame(frame_calendar, background='black')
+
 
 frame_t_right = Frame(frame_top, background='black')
+frame_weather = Frame(frame_t_right, background='black')
+frame_forecast = Frame(frame_t_right, background='black')
+
+frame_days = Frame(frame_forecast, background='black')
+frame_days_icon = Frame(frame_forecast, background='black')
+frame_temp_high = Frame(frame_forecast, background='black')
+frame_temp_low = Frame(frame_forecast, background='black')
 
 frame_b_left = Frame(frame_bottom, background='black')
 frame_news = Frame(frame_b_left, background='black')
@@ -118,7 +127,7 @@ photo_calendar = ImageTk.PhotoImage(image_calendar)
 
 
 # Labels
-weather_image_lg = Label(frame_t_right, bg='black', fg='white')
+weather_image_lg = Label(frame_weather, bg='black', fg='white')
 
 
 label_news_title = Label(frame_b_left, font=font_news_headlines,
@@ -132,7 +141,7 @@ label_date = Label(frame_t_left, font=font_date,
 label_clock = Label(frame_t_left, font=font_time,
                     bg='black',
                     fg='white')
-label_temperature = Label(frame_t_right, font=font_temperature,
+label_temperature = Label(frame_weather, font=font_temperature,
                           bg='black',
                           fg='white')
 label_location = Label(frame_t_right, font=font_location,
@@ -146,7 +155,7 @@ label_clock.pack(side=TOP, anchor=W)
 # Layout Top Right
 label_location.pack(side=TOP, anchor=E)
 weather_image_lg.pack(side=LEFT, anchor=E)
-label_temperature.pack(side=TOP, anchor=E)
+label_temperature.pack(side=RIGHT, anchor=E)
 
 
 # Layout Bottom Left
@@ -168,6 +177,16 @@ def tick():
 
 # Displays Location name and weather data for location
 def current_weather():
+
+    for w in frame_temp_high.winfo_children():
+        w.destroy()
+    for t in frame_temp_low.winfo_children():
+        t.destroy()
+    for q in frame_days_icon.winfo_children():
+        q.destroy()
+    for y in frame_days.winfo_children():
+        y.destroy()
+
     # Location request
     location_req_url = "http://freegeoip.net/json/%s" % get_ip()
     r = requests.get(location_req_url)
@@ -184,7 +203,6 @@ def current_weather():
 
     fahrenheit = int(weather_obj['currently']['temperature'])
     icon_id = weather_obj['currently']['icon']
-    print('Icon ID: ', icon_id)
 
     if icon_id in weatherIcons and weather_image_lg['image'] != icon_id:
         icon2 = weatherIcons[icon_id]
@@ -199,15 +217,54 @@ def current_weather():
     format(fahrenheit, '.0f')
     if fahrenheit != label_temperature["text"]:
         label_temperature["text"] = format(fahrenheit, '.0f') + "°"
-        print("Temperature:", fahrenheit)
-    print('Summary:', weather_obj['currently']['summary'])
 
     if location != label_location['text']:
         label_location['text'] = location
 
+    week_days = weather_obj['daily']['data']
+    for day in week_days[1:6]:
+
+        label_days = Label(frame_days, bg='black', fg='white', font=font_holiday)
+        label_days_icon = Label(frame_days_icon, bg='black', fg='white')
+        label_temp_high = Label(frame_temp_high, bg='black', fg='white', font=font_holiday)
+        label_temp_low = Label(frame_temp_low, bg='black', fg='white', font=font_holiday)
+
+        daily_icon_id = day['icon']
+
+        if daily_icon_id in weatherIcons and label_days_icon['image'] != daily_icon_id:
+            icon3 = weatherIcons[daily_icon_id]
+            daily_icon = Image.open(icon3)
+            daily_icon = daily_icon.resize((30, 30), Image.ANTIALIAS)
+            daily_icon = daily_icon.convert('RGB')
+            daily_photo = ImageTk.PhotoImage(daily_icon)
+
+            label_days_icon.configure(image=daily_photo)
+            label_days_icon.icon = daily_photo
+
+        days_time_conversion = day['time']
+        time_object = datetime.datetime.fromtimestamp(days_time_conversion)
+        time_object_format = time_object.strftime('%a')
+
+        label_days['text'] = time_object_format
+
+        daily_temperature_high = int(day['temperatureHigh'])
+        daily_temperature_low = int(day['temperatureLow'])
+
+        label_temp_high['text'] = format(daily_temperature_high, '.0f') + "°" + "/"
+        label_temp_low['text'] = format(daily_temperature_low, '.0f') + "°"
+
+        label_days.pack(side=TOP, anchor=W)
+        label_days_icon.pack(side=TOP, anchor=W)
+        label_temp_high.pack(side=TOP, anchor=W)
+        label_temp_low.pack(side=TOP, anchor=W)
+
     label_temperature.after(600000, current_weather)
     weather_image_lg.after(600000, current_weather)
     label_location.after(600000, current_weather)
+    label_days.after(600000, current_weather)
+    label_temp_high.after(600000, current_weather)
+    label_temp_low.after(600000, current_weather)
+    label_days_icon.after(600000, current_weather)
 
 
 def get_news():
@@ -283,7 +340,7 @@ def get_calendar():
     Creates a Google Calendar API service object and outputs a list of the next
     10 events on the user's calendar.
     """
-    for widget in frame_calendar.winfo_children():
+    for widget in frame_calendar_events.winfo_children():
         widget.destroy()
     for i in frame_calendar_image.winfo_children():
         i.destroy()
@@ -303,7 +360,7 @@ def get_calendar():
         print('No upcoming events found.')
     for event in events[0:5]:
         label_calender_image = Label(frame_calendar_image, bg='black', fg='white')
-        label_calender = Label(frame_calendar, font=font_news, bg='black', fg='white')
+        label_calender = Label(frame_calendar_events, font=font_news, bg='black', fg='white')
 
         label_calender_image.configure(image=photo_calendar)
         label_calender_image.icon = photo_calendar
@@ -325,12 +382,23 @@ get_news()
 get_calendar()
 
 frame_t_left.pack(side=LEFT, anchor=N, padx=40, pady=40)
-frame_calendar.pack(side=RIGHT, anchor=N)
+frame_calendar.pack(side=TOP, anchor=W)
+frame_calendar_events.pack(side=RIGHT, anchor=N)
 frame_calendar_image.pack(side=LEFT, anchor=N)
+
 frame_t_right.pack(side=RIGHT, anchor=N, padx=40, pady=40)
+frame_weather.pack(side=TOP, anchor=N)
+frame_forecast.pack()
+
+frame_days.pack(side=LEFT, anchor=S)
+frame_days_icon.pack(side=LEFT, anchor=N)
+frame_temp_high.pack(side=LEFT, anchor=S)
+frame_temp_low.pack(side=LEFT, anchor=S)
+
 frame_b_left.pack(side=BOTTOM, anchor=W, padx=40, pady=40)
 frame_news.pack(side=RIGHT, anchor=W)
 frame_newspaper.pack(side=LEFT, anchor=W)
+
 frame_top.pack(expand=TRUE, fill=BOTH, side=TOP)
 frame_bottom.pack(expand=TRUE, fill=BOTH, side=BOTTOM)
 root.mainloop()
