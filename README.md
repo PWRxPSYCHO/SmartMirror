@@ -16,7 +16,7 @@ If you have git installed you can clone the repo:
 Raspberrry Pi powered smart mirror inspired by HackerHouseYT 
 The Smart Mirror project displays News, Google Calendar Feed, Weather, Time, Location, and Date.
 
-**TO-DO:** Implement 5 day weather forecast 
+**TO-DO:** Format time for calendar widget
 
 # Installation and Updating
 
@@ -37,7 +37,7 @@ Install pip prior to this step
 sudo pip install -r requiremtnts.txt
 ```
 
-# **Important** Add your API Token
+# Important: Add your API Token
 
 Use your favorite text editor to add your API token
 
@@ -53,7 +53,7 @@ sudo nano Mirror.py
 ```
 vim Mirror.py
 ```
-Replace `weather_api_key` with your API Token from **darksky.net**
+Replace `weather_api_key` with your API Token from **[DarkSky](https://darksky.net/)**
 
 # Running the Software
 
