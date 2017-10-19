@@ -21,7 +21,7 @@ git clone git@github.com:PWRxPSYCHO/SmartMirror.git
 Install pip prior to this step
 
 ```
-sudo pip install -r requiremtnts.txt
+sudo pip install -r requirements.txt
 ```
 
 # Important: Add your API Token
