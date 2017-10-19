@@ -16,6 +16,19 @@ If you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 ```
 git clone git@github.com:PWRxPSYCHO/SmartMirror.git
 ```
+# Google Calendar Usage
+In order to take advantage of the Google Calendar API you will need to go through the setup. I have not figured out how to incorporate and easy API key to the program.
+
+1. Start [here](https://developers.google.com/google-apps/calendar/quickstart/python) this is the quick start guide to get you running
+2. Click the Wizard Link and Create a project
+3. Create Credentials on API & services page
+4. Download the .json files
+5. Rename service account key file to `client_secret.json`
+
+Once you have those all setup return back to the [Python Quicksart](https://developers.google.com/google-apps/calendar/quickstart/python) 
+
+Follow along until step 4. Once the web browser opens asking for permission to access your account it worked!
+A command prompt window will also appear showing your events.
 
 # Install Your Dependencies
 Install pip prior to this step
