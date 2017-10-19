@@ -20,9 +20,6 @@ git clone git@github.com:PWRxPSYCHO/SmartMirror.git
 # Install Your Dependencies
 Install pip prior to this step
 
-
-Install pip prior to this step
-
 ```
 sudo pip install -r requiremtnts.txt
 ```
@@ -33,10 +30,6 @@ Use your favorite text editor to add your API token
 
 `sudo apt-get install vim` or `sudo apt-get install nano`. You can use `nano` or `vim` to edit the file
 
-
-Use your favorite text editor to add your API token
-
-`sudo apt-get install vim` or `sudo apt-get install nano`. You can use `nano` or `vim` to edit the file
 ```
 sudo nano Mirror.py
 ```
