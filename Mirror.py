@@ -302,8 +302,6 @@ def get_ip():
         traceback.print_exc()
         return "Error: %s. Cannot get ip. " % e
 
-# Reference https://developers.google.com/google-apps/calendar/quickstart/python
-
 
 def get_credentials():
     """Gets valid user credentials from storage.
@@ -366,8 +364,6 @@ def get_calendar():
         label_calender_image.icon = photo_calendar
 
         start = event['start'].get('dateTime', event['start'].get('date'))
-
-        # TO-DO put in if to check length of test_split
 
         label_calender['text'] = event['summary'] + ' ' + start
         label_calender.pack(side=TOP, anchor=W)

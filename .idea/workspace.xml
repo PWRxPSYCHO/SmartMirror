@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ee40b758-8d31-4e31-b0d8-a6ecc1bc0215" name="Default" comment="" />
+    <list default="true" id="ee40b758-8d31-4e31-b0d8-a6ecc1bc0215" name="Default" comment="Removed uncessecary">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Mirror.py" afterPath="$PROJECT_DIR$/Mirror.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,8 +17,8 @@
       <file leaf-file-name="Mirror.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Mirror.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1162">
-              <caret line="244" column="75" lean-forward="true" selection-start-line="244" selection-start-column="75" selection-end-line="244" selection-end-column="75" />
+            <state relative-caret-position="393">
+              <caret line="303" column="0" lean-forward="true" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -42,6 +45,7 @@
       <find>bd</find>
       <find>loc</find>
       <find>location</find>
+      <find>weather_api</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -97,7 +101,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -114,6 +117,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -472,8 +476,8 @@
     <entry file="file://C:/Program Files (x86)/Python36-32/Lib/_strptime.py" />
     <entry file="file://$PROJECT_DIR$/Mirror.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1162">
-          <caret line="244" column="75" lean-forward="true" selection-start-line="244" selection-start-column="75" selection-end-line="244" selection-end-column="75" />
+        <state relative-caret-position="393">
+          <caret line="303" column="0" lean-forward="true" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="0" />
           <folding />
         </state>
       </provider>
