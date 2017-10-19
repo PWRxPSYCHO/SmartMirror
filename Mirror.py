@@ -51,12 +51,14 @@ frame_calendar_events = Frame(frame_calendar, background='black')
 
 frame_t_right = Frame(frame_top, background='black')
 frame_weather = Frame(frame_t_right, background='black')
-frame_forecast = Frame(frame_t_right, background='black')
+frame_current_high_low = Frame(frame_weather, background='black')
 
+frame_forecast = Frame(frame_t_right, background='black')
 frame_days = Frame(frame_forecast, background='black')
 frame_days_icon = Frame(frame_forecast, background='black')
 frame_temp_high = Frame(frame_forecast, background='black')
 frame_temp_low = Frame(frame_forecast, background='black')
+
 
 frame_b_left = Frame(frame_bottom, background='black')
 frame_news = Frame(frame_b_left, background='black')
@@ -80,8 +82,8 @@ font_news_headlines = tkinter.font.Font(family='Helvetica', size=medium_text_siz
 
 # Weather
 weather_api_key = ''
-# latitude = 40.9393  # North +, South -, East +, West -
-# longitude = -75.4349  # North +, South -, East +, West -
+# latitude =   # North +, South -, East +, West -
+# longitude =  # North +, South -, East +, West -
 units = ForecastIO.ForecastIO.UNITS_US
 lang = ForecastIO.ForecastIO.LANG_ENGLISH
 time_format = '%I:%M'
@@ -129,6 +131,14 @@ photo_calendar = ImageTk.PhotoImage(image_calendar)
 # Labels
 weather_image_lg = Label(frame_weather, bg='black', fg='white')
 
+label_temperature = Label(frame_weather, font=font_temperature,
+                          bg='black',
+                          fg='white')
+label_location = Label(frame_weather, font=font_location,
+                       bg='black',
+                       fg='white')
+label_current_temp_high = Label(frame_current_high_low, bg='black', fg='white', font=font_holiday)
+label_current_temp_low = Label(frame_current_high_low, bg='black', fg='white', font=font_holiday)
 
 label_news_title = Label(frame_b_left, font=font_news_headlines,
                          text="Headlines",
@@ -141,21 +151,18 @@ label_date = Label(frame_t_left, font=font_date,
 label_clock = Label(frame_t_left, font=font_time,
                     bg='black',
                     fg='white')
-label_temperature = Label(frame_weather, font=font_temperature,
-                          bg='black',
-                          fg='white')
-label_location = Label(frame_t_right, font=font_location,
-                       bg='black',
-                       fg='white')
 
 # Layout Top Left
 label_date.pack(side=TOP, anchor=W)
 label_clock.pack(side=TOP, anchor=W)
 
 # Layout Top Right
-label_location.pack(side=TOP, anchor=E)
+label_location.pack(side=TOP)
 weather_image_lg.pack(side=LEFT, anchor=E)
-label_temperature.pack(side=RIGHT, anchor=E)
+label_temperature.pack(side=LEFT, anchor=E)
+
+label_current_temp_high.pack(side=LEFT, anchor=E)
+label_current_temp_low.pack(side=RIGHT, anchor=E)
 
 
 # Layout Bottom Left
@@ -203,6 +210,17 @@ def current_weather():
 
     fahrenheit = int(weather_obj['currently']['temperature'])
     icon_id = weather_obj['currently']['icon']
+
+    current_data = weather_obj['daily']['data']
+
+    for today in current_data[0:1]:
+
+        temperature_high_today = int(today['temperatureHigh'])
+        temperature_low_today = int(today['temperatureLow'])
+
+        if temperature_high_today != label_current_temp_high and temperature_low_today != label_current_temp_low:
+            label_current_temp_high['text'] = format(temperature_high_today, '.0f') + "°" + "/"
+            label_current_temp_low['text'] = format(temperature_low_today, '.0f') + "°"
 
     if icon_id in weatherIcons and weather_image_lg['image'] != icon_id:
         icon2 = weatherIcons[icon_id]
@@ -265,6 +283,8 @@ def current_weather():
     label_temp_high.after(600000, current_weather)
     label_temp_low.after(600000, current_weather)
     label_days_icon.after(600000, current_weather)
+    label_current_temp_low.after(600000, current_weather)
+    label_current_temp_high.after(600000, current_weather)
 
 
 def get_news():
@@ -336,7 +356,7 @@ def get_calendar():
     """Shows basic usage of the Google Calendar API.
 
     Creates a Google Calendar API service object and outputs a list of the next
-    10 events on the user's calendar.
+    5 events on the user's calendar.
     """
     for widget in frame_calendar_events.winfo_children():
         widget.destroy()
@@ -364,6 +384,15 @@ def get_calendar():
         label_calender_image.icon = photo_calendar
 
         start = event['start'].get('dateTime', event['start'].get('date'))
+        #if len(test_split) > 1:
+            #event_date = test_split[0]
+            #event_time = test_split[1]
+
+            #date_object = datetime.datetime.strptime(event_date, "%Y-%m-%d")
+            #time_object = datetime.datetime.strptime(event_time, "%I:%M%p-%I:%M%p")
+
+            #event_day = datetime.datetime.strftime(date_object, "%a")
+            #label_calender['text'] = event['summary'] + ' ' + event_day
 
         label_calender['text'] = event['summary'] + ' ' + start
         label_calender.pack(side=TOP, anchor=W)
@@ -384,6 +413,7 @@ frame_calendar_image.pack(side=LEFT, anchor=N)
 
 frame_t_right.pack(side=RIGHT, anchor=N, padx=40, pady=40)
 frame_weather.pack(side=TOP, anchor=N)
+frame_current_high_low.pack(side=LEFT, anchor=W)
 frame_forecast.pack()
 
 frame_days.pack(side=LEFT, anchor=S)
