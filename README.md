@@ -39,8 +39,10 @@ sudo pip install -r requirements.txt
 
 # Important: Add your API Token
 
-Use your favorite text editor to add your API token
+Create a text file and name it `API_Key.txt` and put your API Token from **[DarkSky](https://darksky.net/)** in it.
+Then place the text file inside the project folder.
 
+Open up the project and change the path of the `file_object` to ``` file_object = open("API_KEY.txt")
 `sudo apt-get install vim` or `sudo apt-get install nano`. You can use `nano` or `vim` to edit the file
 
 ```
@@ -49,7 +51,6 @@ sudo nano Mirror.py
 ```
 vim Mirror.py
 ```
-Replace `weather_api_key` with your API Token from **[DarkSky](https://darksky.net/)**
 
 # Running the Software
 
