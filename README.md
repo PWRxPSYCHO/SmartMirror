@@ -14,7 +14,7 @@ Download by pressing green button in repo or
 
 If you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed you can clone the repo:
 ```
-git clone git@github.com:PWRxPSYCHO/SmartMirror.git
+git@github.com:PWRxPSYCHO/SmartMirror.git
 ```
 # Google Calendar Usage
 In order to take advantage of the Google Calendar API you will need to go through the setup. I have not figured out how to incorporate and easy API key to the program.
