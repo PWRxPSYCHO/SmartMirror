@@ -245,7 +245,7 @@ def current_weather():
         if location != label_location['text']:
             label_location['text'] = location
 
-    week_days = data['daily']['data']
+        week_days = data['daily']['data']
     for day in week_days[1:6]:
 
         label_days = Label(frame_days, bg='black', fg='white', font=font_holiday)
