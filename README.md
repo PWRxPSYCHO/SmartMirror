@@ -61,5 +61,5 @@ vim Mirror.py
 To run the application navigate to the project folder and run the following command
 
 ```
-python Mirror.py
+python3 Mirror.py
 ```
