@@ -116,6 +116,7 @@ weatherIcons = {"cloudy": 'assets/Cloud.png',
                 "tornado": 'assets/Tornado.png',
                 "wind": 'assets/Wind.png'
                 }
+weather_data = []
 
 # Images
 image = Image.open("assets/Newspaper.png")
@@ -194,6 +195,8 @@ def current_weather():
         q.destroy()
     for y in frame_days.winfo_children():
         y.destroy()
+    for items in weather_data:
+        weather_data.remove(items)
 
     # Location request
     location_req_url = "http://freegeoip.net/json/%s" % get_ip()
@@ -208,39 +211,41 @@ def current_weather():
     # Sets Weather Object
     r = requests.get(weather_url)
     weather_obj = json.loads(r.text)
+    weather_data.append(weather_obj)
+    for data in weather_data:
 
-    fahrenheit = int(weather_obj['currently']['temperature'])
-    icon_id = weather_obj['currently']['icon']
+        fahrenheit = int(data['currently']['temperature'])
+        icon_id = data['currently']['icon']
 
-    current_data = weather_obj['daily']['data']
+        current_data = data['daily']['data']
 
-    for today in current_data[0:1]:
+        for today in current_data[0:1]:
 
-        temperature_high_today = int(today['temperatureHigh'])
-        temperature_low_today = int(today['temperatureLow'])
+            temperature_high_today = int(today['temperatureHigh'])
+            temperature_low_today = int(today['temperatureLow'])
 
-        if temperature_high_today != label_current_temp_high and temperature_low_today != label_current_temp_low:
-            label_current_temp_high['text'] = format(temperature_high_today, '.0f') + "°" + "/"
-            label_current_temp_low['text'] = format(temperature_low_today, '.0f') + "°"
+            if temperature_high_today != label_current_temp_high and temperature_low_today != label_current_temp_low:
+                label_current_temp_high['text'] = format(temperature_high_today, '.0f') + "°" + "/"
+                label_current_temp_low['text'] = format(temperature_low_today, '.0f') + "°"
 
-    if icon_id in weatherIcons and weather_image_lg['image'] != icon_id:
-        icon2 = weatherIcons[icon_id]
-        w_icon = Image.open(icon2)
-        w_icon = w_icon.resize((100, 100), Image.ANTIALIAS)
-        w_icon = w_icon.convert('RGB')
-        w_photo = ImageTk.PhotoImage(w_icon)
+        if icon_id in weatherIcons and weather_image_lg['image'] != icon_id:
+            icon2 = weatherIcons[icon_id]
+            w_icon = Image.open(icon2)
+            w_icon = w_icon.resize((100, 100), Image.ANTIALIAS)
+            w_icon = w_icon.convert('RGB')
+            w_photo = ImageTk.PhotoImage(w_icon)
 
-        weather_image_lg.configure(image=w_photo)
-        weather_image_lg.icon = w_photo
+            weather_image_lg.configure(image=w_photo)
+            weather_image_lg.icon = w_photo
 
-    format(fahrenheit, '.0f')
-    if fahrenheit != label_temperature["text"]:
-        label_temperature["text"] = format(fahrenheit, '.0f') + "°"
+        format(fahrenheit, '.0f')
+        if fahrenheit != label_temperature["text"]:
+            label_temperature["text"] = format(fahrenheit, '.0f') + "°"
 
-    if location != label_location['text']:
-        label_location['text'] = location
+        if location != label_location['text']:
+            label_location['text'] = location
 
-    week_days = weather_obj['daily']['data']
+    week_days = data['daily']['data']
     for day in week_days[1:6]:
 
         label_days = Label(frame_days, bg='black', fg='white', font=font_holiday)
@@ -268,24 +273,16 @@ def current_weather():
 
         daily_temperature_high = int(day['temperatureHigh'])
         daily_temperature_low = int(day['temperatureLow'])
-
-        label_temp_high['text'] = format(daily_temperature_high, '.0f') + "°" + "/"
-        label_temp_low['text'] = format(daily_temperature_low, '.0f') + "°"
+        if label_current_temp_high['text'] != daily_temperature_high and label_current_temp_low['text'] != daily_temperature_low:
+            label_temp_high['text'] = format(daily_temperature_high, '.0f') + "°" + "/"
+            label_temp_low['text'] = format(daily_temperature_low, '.0f') + "°"
 
         label_days.pack(side=TOP, anchor=W)
         label_days_icon.pack(side=TOP, anchor=W)
         label_temp_high.pack(side=TOP, anchor=W)
         label_temp_low.pack(side=TOP, anchor=W)
 
-    label_temperature.after(600000, current_weather)
-    weather_image_lg.after(600000, current_weather)
-    label_location.after(600000, current_weather)
-    label_days.after(600000, current_weather)
-    label_temp_high.after(600000, current_weather)
-    label_temp_low.after(600000, current_weather)
-    label_days_icon.after(600000, current_weather)
-    label_current_temp_low.after(600000, current_weather)
-    label_current_temp_high.after(600000, current_weather)
+        label_temperature.after(600000, current_weather)
 
 
 def get_news():
@@ -429,3 +426,4 @@ frame_newspaper.pack(side=LEFT, anchor=W)
 frame_top.pack(expand=TRUE, fill=BOTH, side=TOP)
 frame_bottom.pack(expand=TRUE, fill=BOTH, side=BOTTOM)
 root.mainloop()
+
