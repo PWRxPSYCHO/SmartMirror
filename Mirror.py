@@ -193,8 +193,8 @@ def current_weather():
 
     # Location request
     location_req_url = "http://freegeoip.net/json/%s" % get_ip()
-    r = requests.get(location_req_url)
-    location_obj = json.loads(r.text)
+    t = requests.get(location_req_url)
+    location_obj = json.loads(t.text)
     latitude = location_obj['latitude']
     longitude = location_obj['longitude']
     weather_url = "https://api.darksky.net/forecast/%s/%s,%s?lang=%s&units=%s" % (weather_api_key, latitude, longitude,
