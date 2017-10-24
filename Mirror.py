@@ -1,25 +1,26 @@
 from __future__ import print_function
-import time
-from tkinter import *
-import tkinter.font
-from forecastiopy import *
-import json
-import datetime
-import requests
-import feedparser
-import traceback
-from PIL import ImageTk, Image
-import httplib2
-import os
 
+import datetime
+import json
+import os
+import time
+import tkinter.font
+import traceback
+from tkinter import *
+
+import feedparser
+import httplib2
+import requests
+from PIL import ImageTk, Image
 from apiclient import discovery
+from forecastiopy import *
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 
-
 try:
     import argparse
+
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
     flags = None
@@ -30,7 +31,6 @@ large_text_size = 48
 medium_text_size = 28
 small_text_size = 18
 x_small_text_size = 14
-
 
 # tk objects
 root = Tk()
@@ -48,7 +48,6 @@ frame_calendar = Frame(frame_t_left, background='black')
 frame_calendar_image = Frame(frame_calendar, background='black')
 frame_calendar_events = Frame(frame_calendar, background='black')
 
-
 frame_t_right = Frame(frame_top, background='black')
 frame_weather = Frame(frame_t_right, background='black')
 frame_current_high_low = Frame(frame_weather, background='black')
@@ -59,7 +58,6 @@ frame_days_icon = Frame(frame_forecast, background='black')
 frame_temp_high = Frame(frame_forecast, background='black')
 frame_temp_low = Frame(frame_forecast, background='black')
 
-
 frame_b_left = Frame(frame_bottom, background='black')
 frame_news = Frame(frame_b_left, background='black')
 frame_newspaper = Frame(frame_b_left, background='black')
@@ -67,7 +65,6 @@ frame_newspaper = Frame(frame_b_left, background='black')
 frame_b_right = Frame(frame_bottom, background='black')
 
 root.geometry('{}x{}'.format(screen_width, screen_height))
-
 
 # Fonts
 font_time = tkinter.font.Font(family='Helvetica', size=x_large_text_size)
@@ -81,7 +78,7 @@ font_news = tkinter.font.Font(family='Helvetica', size=x_small_text_size)
 font_news_headlines = tkinter.font.Font(family='Helvetica', size=medium_text_size)
 
 # Weather
-file_object = open('C:/Users/Jackson/Desktop/API_Key.txt')
+file_object = open('API_Key.txt')
 weather_api_key = file_object.read()
 file_object.close()
 # latitude =   # North +, South -, East +, West -
@@ -99,7 +96,6 @@ google_news_url = "https://news.google.com/news?ned=us&output=rss"
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Google Calendar API Python Quickstart'
-
 
 # Asset images with launch word
 weatherIcons = {"cloudy": 'assets/Cloud.png',
@@ -128,7 +124,6 @@ image_calendar = Image.open("assets/Calendar.png")
 image_calendar = image_calendar.resize((25, 25), Image.ANTIALIAS)
 image_calendar = image_calendar.convert('RGB')
 photo_calendar = ImageTk.PhotoImage(image_calendar)
-
 
 # Labels
 weather_image_lg = Label(frame_weather, bg='black', fg='white')
@@ -166,7 +161,6 @@ label_temperature.pack(side=LEFT, anchor=E)
 label_current_temp_high.pack(side=LEFT, anchor=E)
 label_current_temp_low.pack(side=RIGHT, anchor=E)
 
-
 # Layout Bottom Left
 label_news_title.pack(side=TOP, anchor=W)
 
@@ -186,7 +180,6 @@ def tick():
 
 # Displays Location name and weather data for location
 def current_weather():
-
     for w in frame_temp_high.winfo_children():
         w.destroy()
     for t in frame_temp_low.winfo_children():
@@ -273,7 +266,8 @@ def current_weather():
 
         daily_temperature_high = int(day['temperatureHigh'])
         daily_temperature_low = int(day['temperatureLow'])
-        if label_current_temp_high['text'] != daily_temperature_high and label_current_temp_low['text'] != daily_temperature_low:
+        if label_current_temp_high['text'] != daily_temperature_high and label_current_temp_low[
+            'text'] != daily_temperature_low:
             label_temp_high['text'] = format(daily_temperature_high, '.0f') + "°" + "/"
             label_temp_low['text'] = format(daily_temperature_low, '.0f') + "°"
 
@@ -286,7 +280,6 @@ def current_weather():
 
 
 def get_news():
-
     for widget in frame_news.winfo_children():
         widget.destroy()
     for i in frame_newspaper.winfo_children():
@@ -382,15 +375,15 @@ def get_calendar():
         label_calender_image.icon = photo_calendar
 
         start = event['start'].get('dateTime', event['start'].get('date'))
-        #if len(test_split) > 1:
-            #event_date = test_split[0]
-            #event_time = test_split[1]
+        # if len(test_split) > 1:
+        # event_date = test_split[0]
+        # event_time = test_split[1]
 
-            #date_object = datetime.datetime.strptime(event_date, "%Y-%m-%d")
-            #time_object = datetime.datetime.strptime(event_time, "%I:%M%p-%I:%M%p")
+        # date_object = datetime.datetime.strptime(event_date, "%Y-%m-%d")
+        # time_object = datetime.datetime.strptime(event_time, "%I:%M%p-%I:%M%p")
 
-            #event_day = datetime.datetime.strftime(date_object, "%a")
-            #label_calender['text'] = event['summary'] + ' ' + event_day
+        # event_day = datetime.datetime.strftime(date_object, "%a")
+        # label_calender['text'] = event['summary'] + ' ' + event_day
 
         label_calender['text'] = event['summary'] + ' ' + start
         label_calender.pack(side=TOP, anchor=W)
@@ -426,4 +419,3 @@ frame_newspaper.pack(side=LEFT, anchor=W)
 frame_top.pack(expand=TRUE, fill=BOTH, side=TOP)
 frame_bottom.pack(expand=TRUE, fill=BOTH, side=BOTTOM)
 root.mainloop()
-
