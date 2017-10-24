@@ -5,7 +5,7 @@ Raspberrry Pi powered smart mirror inspired by HackerHouseYT Smart Mirror projec
 
 Displays News, Google Calendar Feed, Current Weather, 5 Day Weather Forecast, Time, Location, and Date.
 
-**TO-DO:** Format time for calendar widget and create fullscreen, create quickstart.py
+**TO-DO:** Format time for calendar widget and create fullscreen
 
 
 # Installation and Updating
