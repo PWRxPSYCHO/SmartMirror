@@ -12,7 +12,7 @@ os.system('! dpkg -S python-imagingtk && apt-get -y install python-imaging-tk')
 print('INFO: Generating the requirements form requirements.txt')
 package = []
 
-for line in open('requirements.text').read():
+for line in open('requirements.txt').read():
     if not line.startswith('#'):
         package.append(line.strip())
 
