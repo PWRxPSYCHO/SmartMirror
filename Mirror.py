@@ -78,7 +78,7 @@ font_news = tkinter.font.Font(family='Helvetica', size=x_small_text_size)
 font_news_headlines = tkinter.font.Font(family='Helvetica', size=medium_text_size)
 
 # Weather
-file_object = open('API_Key.txt')
+file_object = open('C:/Users/Jackson/Desktop/API_Key.txt')
 weather_api_key = file_object.read()
 file_object.close()
 # latitude =   # North +, South -, East +, West -

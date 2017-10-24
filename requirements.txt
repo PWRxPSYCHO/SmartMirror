@@ -2,3 +2,6 @@ requests
 feedparser
 Pillow
 forecastiopy
+apiclient
+oauth2client
+httplib2
