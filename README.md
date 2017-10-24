@@ -37,6 +37,9 @@ Install pip prior to this step
 ```
 sudo pip install -r requirements.txt
 ```
+```
+sudo apt-get install python-imaging-tk
+```
 
 # Important: Add your API Token
 
@@ -47,6 +50,9 @@ Open up the project and change the path of the `file_object` to
 ``` 
 file_object = open("API_KEY.txt")
 ```
+**IF** You get a Json error remove `file_object=open()` line as well as `file_object.close()` and change `weather_api_key` to
+`weather_api_key=""` insert your API key in the quatition marks
+
 `sudo apt-get install vim` or `sudo apt-get install nano`. You can use `nano` or `vim` to edit the file
 
 ```
