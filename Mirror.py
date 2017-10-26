@@ -276,7 +276,7 @@ def current_weather():
         label_temp_high.pack(side=TOP, anchor=W)
         label_temp_low.pack(side=TOP, anchor=W)
 
-        label_temperature.after(600000, current_weather)
+    label_temperature.after(600000, current_weather)
 
 
 def get_news():
