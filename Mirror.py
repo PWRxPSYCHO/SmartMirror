@@ -266,8 +266,8 @@ def current_weather():
 
         daily_temperature_high = int(day['temperatureHigh'])
         daily_temperature_low = int(day['temperatureLow'])
-        if label_current_temp_high['text'] != daily_temperature_high and label_current_temp_low[
-            'text'] != daily_temperature_low:
+        if label_current_temp_high['text'] != daily_temperature_high \
+                and label_current_temp_low['text'] != daily_temperature_low:
             label_temp_high['text'] = format(daily_temperature_high, '.0f') + "°" + "/"
             label_temp_low['text'] = format(daily_temperature_low, '.0f') + "°"
 
@@ -373,19 +373,24 @@ def get_calendar():
 
         label_calender_image.configure(image=photo_calendar)
         label_calender_image.icon = photo_calendar
+        print(event['summary'], event['start'].get('dateTime', event['start'].get('date')), event['end'].get('dateTime', event['end'].get('date')))
 
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        # if len(test_split) > 1:
-        # event_date = test_split[0]
-        # event_time = test_split[1]
+        if event['start'].get('dateTime') is None and event['end'].get('dateTime') is None:
+            start_date = event['start'].get('date')
+            start_date_format = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+            start = datetime.datetime.strftime(start_date_format, "%b, %d")
+            label_calender['text'] = str(start) + ": " + event['summary']
+        else:
+            end_date_time = event['end'].get('dateTime')
+            end_date_time_obj = datetime.datetime.strptime(''.join(end_date_time.rsplit(':', 1)), '%Y-%m-%dT%H:%M:%S%z')
+            end_date_time_format = datetime.datetime.strftime(end_date_time_obj, "%I:%M%p")
 
-        # date_object = datetime.datetime.strptime(event_date, "%Y-%m-%d")
-        # time_object = datetime.datetime.strptime(event_time, "%I:%M%p-%I:%M%p")
+            start_date_time = event['start'].get('dateTime')
+            start_date_time_obj = datetime.datetime.strptime(''.join(start_date_time.rsplit(':', 1)), '%Y-%m-%dT%H:%M:%S%z')
+            start_date_time_format = datetime.datetime.strftime(start_date_time_obj, "%b, %d %I:%M%p")
+            print(start_date_time_format)
+            label_calender['text'] = start_date_time_format + "-" + end_date_time_format + ": " + event['summary']
 
-        # event_day = datetime.datetime.strftime(date_object, "%a")
-        # label_calender['text'] = event['summary'] + ' ' + event_day
-
-        label_calender['text'] = event['summary'] + ' ' + start
         label_calender.pack(side=TOP, anchor=W)
         label_calender_image.pack(side=TOP, anchor=W)
     label_calender.after(600000, get_calendar)
