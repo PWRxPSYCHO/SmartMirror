@@ -46,13 +46,6 @@ sudo apt-get install python-imaging-tk
 Create a text file and name it `API_Key.txt` and put your API Token from **[DarkSky](https://darksky.net/)** in it.
 Then place the text file inside the project folder.
 
-Open up the project and change the path of the `file_object` to 
-``` 
-file_object = open("API_KEY.txt")
-```
-**IF** You get a Json error remove `file_object=open()` line as well as `file_object.close()` and change `weather_api_key` to
-`weather_api_key=""` insert your API key in the quotation marks
-
 `sudo apt-get install vim` or `sudo apt-get install nano`. You can use `nano` or `vim` to edit the file
 
 ```
@@ -61,6 +54,13 @@ sudo nano Mirror.py
 ```
 vim Mirror.py
 ```
+
+Open up the project and change the path of the `file_object` to 
+``` 
+file_object = open("API_KEY.txt")
+```
+**IF** You get a Json error remove `file_object=open()` line as well as `file_object.close()` and change `weather_api_key` to
+`weather_api_key=""` insert your API key in the quotation marks
 
 # Running the Software
 
