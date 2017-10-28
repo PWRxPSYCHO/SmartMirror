@@ -70,4 +70,4 @@ To run the application navigate to the project folder and run the following comm
 python3 Mirror.py
 ```
 
-![Program](/relative/path/to/img.jpg?raw=true "Smart Mirror")
+![Program](Smart_Mirror.png?raw=true "Smart Mirror")
