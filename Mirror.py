@@ -78,7 +78,7 @@ font_news = tkinter.font.Font(family='Helvetica', size=x_small_text_size)
 font_news_headlines = tkinter.font.Font(family='Helvetica', size=medium_text_size)
 
 # Weather
-file_object = open('C:/Users/Jackson/Desktop/API_Key.txt')
+file_object = open('C:/Users/PWRxPSYCHO/Desktop/API_Key.txt')
 weather_api_key = file_object.read()
 file_object.close()
 # latitude =   # North +, South -, East +, West -
@@ -171,10 +171,8 @@ def tick():
     d = time.strftime(date_format)
     if s != label_clock["text"]:
         label_clock["text"] = s
-        print("Time:", s)
     if d != label_date["text"]:
         label_date["text"] = d
-        print('Date:', d)
     label_clock.after(200, tick)
 
 
@@ -359,7 +357,7 @@ def get_calendar():
 
     now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
 
-    print('Getting the upcoming 10 events')
+
     eventsResult = service.events().list(
         calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
@@ -373,7 +371,6 @@ def get_calendar():
 
         label_calender_image.configure(image=photo_calendar)
         label_calender_image.icon = photo_calendar
-        print(event['summary'], event['start'].get('dateTime', event['start'].get('date')), event['end'].get('dateTime', event['end'].get('date')))
 
         if event['start'].get('dateTime') is None and event['end'].get('dateTime') is None:
             start_date = event['start'].get('date')
@@ -388,7 +385,6 @@ def get_calendar():
             start_date_time = event['start'].get('dateTime')
             start_date_time_obj = datetime.datetime.strptime(''.join(start_date_time.rsplit(':', 1)), '%Y-%m-%dT%H:%M:%S%z')
             start_date_time_format = datetime.datetime.strftime(start_date_time_obj, "%b, %d %I:%M%p")
-            print(start_date_time_format)
             label_calender['text'] = start_date_time_format + "-" + end_date_time_format + ": " + event['summary']
 
         label_calender.pack(side=TOP, anchor=W)
