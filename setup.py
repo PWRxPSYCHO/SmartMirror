@@ -2,7 +2,7 @@ import os
 import  sys
 from setuptools import setup, find_packages
 
-if os.getuid() !=0:
+if os.getuid() != 0:
     print('ERROR: Need to run as root')
     sys.exit(1)
 

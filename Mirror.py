@@ -7,6 +7,7 @@ import time
 import tkinter.font
 import traceback
 from tkinter import *
+from requests import get
 
 import feedparser
 import httplib2
@@ -70,27 +71,27 @@ root.geometry('{}x{}'.format(screen_width, screen_height))
 font_time = tkinter.font.Font(family='Helvetica', size=x_large_text_size)
 font_date = tkinter.font.Font(family='Helvetica', size=medium_text_size)
 font_location = tkinter.font.Font(family='Helvetica', size=medium_text_size)
-font_temperature = tkinter.font.Font(family='Helvetica', size=x_large_text_size)
+font_temperature = tkinter.font.Font(
+    family='Helvetica', size=x_large_text_size)
 font_quote = tkinter.font.Font(family='Helvetica', size=medium_text_size)
 font_holiday = tkinter.font.Font(family='Helvetica', size=small_text_size)
 font_weather = tkinter.font.Font(family='Helvetica', size=small_text_size)
 font_news = tkinter.font.Font(family='Helvetica', size=x_small_text_size)
-font_news_headlines = tkinter.font.Font(family='Helvetica', size=medium_text_size)
+font_news_headlines = tkinter.font.Font(
+    family='Helvetica', size=medium_text_size)
 
 # Weather
-file_object = open('C:/Users/PWRxPSYCHO/Desktop/API_Key.txt')
-weather_api_key = file_object.read()
-file_object.close()
-# latitude =   # North +, South -, East +, West -
-# longitude =  # North +, South -, East +, West -
+#file_object = open('C:/Users/PWRxPSYCHO/Desktop/API_Key.txt')
+
+# file_object.close()
 units = ForecastIO.ForecastIO.UNITS_US
 lang = ForecastIO.ForecastIO.LANG_ENGLISH
+
 time_format = '%I:%M'
 date_format = '%A, %B %d, %Y'
 
 # News
-county_code = 'us'
-google_news_url = "https://news.google.com/news?ned=us&output=rss"
+google_news_url = "https://news.google.com/news/rss/?gl=US&ned=us&hl=en"
 
 # Calendar
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
@@ -105,7 +106,7 @@ weatherIcons = {"cloudy": 'assets/Cloud.png',
                 "partly-cloudy-night": 'assets/PartlyMoon.png',
                 "partly-cloudy-day": 'assets/PartlySunny.png',
                 "rain": 'assets/Rain.png',
-                "snow-thin": 'assets/Snow.png',
+                "snow": 'assets/Snow.png',
                 "storm": 'assets/Storm.png',
                 "clear-day": 'assets/Sun.png',
                 "sunrise": 'assets/Sunrise.png',
@@ -134,8 +135,10 @@ label_temperature = Label(frame_weather, font=font_temperature,
 label_location = Label(frame_weather, font=font_location,
                        bg='black',
                        fg='white')
-label_current_temp_high = Label(frame_current_high_low, bg='black', fg='white', font=font_holiday)
-label_current_temp_low = Label(frame_current_high_low, bg='black', fg='white', font=font_holiday)
+label_current_temp_high = Label(
+    frame_current_high_low, bg='black', fg='white', font=font_holiday)
+label_current_temp_low = Label(
+    frame_current_high_low, bg='black', fg='white', font=font_holiday)
 
 label_news_title = Label(frame_b_left, font=font_news_headlines,
                          text="Headlines",
@@ -190,7 +193,7 @@ def current_weather():
         weather_data.remove(items)
 
     # Location request
-    location_req_url = "http://freegeoip.net/json/%s" % get_ip()
+    location_req_url = "http://api.ipstack.com/%s?access_key=%s" % (get_ip(), ip_api_key)
     t = requests.get(location_req_url)
     location_obj = json.loads(t.text)
     latitude = location_obj['latitude']
@@ -216,8 +219,10 @@ def current_weather():
             temperature_low_today = int(today['temperatureLow'])
 
             if temperature_high_today != label_current_temp_high and temperature_low_today != label_current_temp_low:
-                label_current_temp_high['text'] = format(temperature_high_today, '.0f') + "°" + "/"
-                label_current_temp_low['text'] = format(temperature_low_today, '.0f') + "°"
+                label_current_temp_high['text'] = format(
+                    temperature_high_today, '.0f') + "°" + "/"
+                label_current_temp_low['text'] = format(
+                    temperature_low_today, '.0f') + "°"
 
         if icon_id in weatherIcons and weather_image_lg['image'] != icon_id:
             icon2 = weatherIcons[icon_id]
@@ -239,17 +244,21 @@ def current_weather():
         week_days = data['daily']['data']
     for day in week_days[1:6]:
 
-        label_days = Label(frame_days, bg='black', fg='white', font=font_holiday)
+        label_days = Label(frame_days, bg='black',
+                           fg='white', font=font_holiday)
         label_days_icon = Label(frame_days_icon, bg='black', fg='white')
-        label_temp_high = Label(frame_temp_high, bg='black', fg='white', font=font_holiday)
-        label_temp_low = Label(frame_temp_low, bg='black', fg='white', font=font_holiday)
+        label_temp_high = Label(
+            frame_temp_high, bg='black', fg='white', font=font_holiday)
+        label_temp_low = Label(frame_temp_low, bg='black',
+                               fg='white', font=font_holiday)
 
         daily_icon_id = day['icon']
+
 
         if daily_icon_id in weatherIcons and label_days_icon['image'] != daily_icon_id:
             icon3 = weatherIcons[daily_icon_id]
             daily_icon = Image.open(icon3)
-            daily_icon = daily_icon.resize((30, 30), Image.ANTIALIAS)
+            daily_icon = daily_icon.resize((30 , 30), Image.ANTIALIAS)
             daily_icon = daily_icon.convert('RGB')
             daily_photo = ImageTk.PhotoImage(daily_icon)
 
@@ -266,7 +275,8 @@ def current_weather():
         daily_temperature_low = int(day['temperatureLow'])
         if label_current_temp_high['text'] != daily_temperature_high \
                 and label_current_temp_low['text'] != daily_temperature_low:
-            label_temp_high['text'] = format(daily_temperature_high, '.0f') + "°" + "/"
+            label_temp_high['text'] = format(
+                daily_temperature_high, '.0f') + "°" + "/"
             label_temp_low['text'] = format(daily_temperature_low, '.0f') + "°"
 
         label_days.pack(side=TOP, anchor=W)
@@ -290,7 +300,8 @@ def get_news():
             newspaper_image.configure(image=photo)
             newspaper_image.icon = photo
 
-            label_news = Label(frame_news, bg='black', fg='white', font=font_news)
+            label_news = Label(frame_news, bg='black',
+                               fg='white', font=font_news)
             label_news['text'] = post['title']
             newspaper_image.pack(side=TOP, anchor=W)
             label_news.pack(side=TOP, anchor=W)
@@ -303,10 +314,8 @@ def get_news():
 
 def get_ip():
     try:
-        ip_url = "http://jsonip.com/"
-        req = requests.get(ip_url)
-        ip_json = json.loads(req.text)
-        return ip_json['ip']
+        ip = get('https://api.ipify.org').text
+        return ip
     except Exception as e:
         traceback.print_exc()
         return "Error: %s. Cannot get ip. " % e
@@ -357,7 +366,6 @@ def get_calendar():
 
     now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
 
-
     eventsResult = service.events().list(
         calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
@@ -366,26 +374,34 @@ def get_calendar():
     if not events:
         print('No upcoming events found.')
     for event in events[0:5]:
-        label_calender_image = Label(frame_calendar_image, bg='black', fg='white')
-        label_calender = Label(frame_calendar_events, font=font_news, bg='black', fg='white')
+        label_calender_image = Label(
+            frame_calendar_image, bg='black', fg='white')
+        label_calender = Label(frame_calendar_events,
+                               font=font_news, bg='black', fg='white')
 
         label_calender_image.configure(image=photo_calendar)
         label_calender_image.icon = photo_calendar
 
         if event['start'].get('dateTime') is None and event['end'].get('dateTime') is None:
             start_date = event['start'].get('date')
-            start_date_format = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+            start_date_format = datetime.datetime.strptime(
+                start_date, "%Y-%m-%d")
             start = datetime.datetime.strftime(start_date_format, "%b, %d")
             label_calender['text'] = str(start) + ": " + event['summary']
         else:
             end_date_time = event['end'].get('dateTime')
-            end_date_time_obj = datetime.datetime.strptime(''.join(end_date_time.rsplit(':', 1)), '%Y-%m-%dT%H:%M:%S%z')
-            end_date_time_format = datetime.datetime.strftime(end_date_time_obj, "%I:%M%p")
+            end_date_time_obj = datetime.datetime.strptime(
+                ''.join(end_date_time.rsplit(':', 1)), '%Y-%m-%dT%H:%M:%S%z')
+            end_date_time_format = datetime.datetime.strftime(
+                end_date_time_obj, "%I:%M%p")
 
             start_date_time = event['start'].get('dateTime')
-            start_date_time_obj = datetime.datetime.strptime(''.join(start_date_time.rsplit(':', 1)), '%Y-%m-%dT%H:%M:%S%z')
-            start_date_time_format = datetime.datetime.strftime(start_date_time_obj, "%b, %d %I:%M%p")
-            label_calender['text'] = start_date_time_format + "-" + end_date_time_format + ": " + event['summary']
+            start_date_time_obj = datetime.datetime.strptime(
+                ''.join(start_date_time.rsplit(':', 1)), '%Y-%m-%dT%H:%M:%S%z')
+            start_date_time_format = datetime.datetime.strftime(
+                start_date_time_obj, "%b, %d %I:%M%p")
+            label_calender['text'] = start_date_time_format + \
+                "-" + end_date_time_format + ": " + event['summary']
 
         label_calender.pack(side=TOP, anchor=W)
         label_calender_image.pack(side=TOP, anchor=W)
@@ -393,7 +409,6 @@ def get_calendar():
 
 
 tick()
-get_ip()
 current_weather()
 get_news()
 get_calendar()
